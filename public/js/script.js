@@ -69,58 +69,18 @@ function invert(arrayName) {
 }
 
 function getNeighborPads(x, y, size) {
+  let neighborPads=[];
   if(size<=0 || x<0 || x>=size || y<0 || y>=size) {
     return [];
   }
 
-  if(x===0) {
-    if(y===0) {
-      //no left neighbor or below neighbor
-      // [right neighbor, above neighbor]
-      return [[x+1,y],[x,y+1]];
-    }
-
-    if(y===size-1) {
-      // no left neighbor or above neighbor
-      // [right neighbor, below neighbor]
-      return [[x+1,y],[x,y-1]];
-    }
-
-    // no left neighbor
-    // [right, above, below]
-    return [[x+1,y],[x,y+1],[x,y-1]];
-  }
-
-  if(x===size-1) {
-    if(y===0) {
-      // no right neighor or below neighbor
-      // [left neighbor, above neighbor]
-      return [[x-1,y],[x,y+1]];
-    }
-
-    if(y===size-1) {
-      // no right neighbor or above neighbor
-      // [left neighbor, below neighbor]
-      return [[x-1,y],[x,y-1]];
-    }
-
-    //no right neighbor
-    // [left, above, below]
-    return [[x-1,y],[x,y+1],[x,y-1]];
-  }
-
-  if(y===0) {
-    // no below neighbor
-    // [left, right, above]
-    return [[x-1,y],[x+1,y],[x,y+1]];
-  }
-
-  if(y===size-1) {
-    // no above neighbor
-    // [left, right, below]
-    return [[x-1,y],[x+1,y],[x,y-1]];
-  }
-
-  // [left, right, above, below]
-  return [[x-1,y],[x+1,y],[x,y+1],[x,y-1]];
+  neighborPads.push([x - 1, y]);
+  neighborPads.push([x, y - 1]);
+  neighborPads.push([x + 1, y]);
+  neighborPads.push([x, y + 1]);
+  return neighborPads.filter((neighbor) => {
+    return neighbor.every((val) => {
+      return val >= 0 && val < size;
+    });
+  });
 }
